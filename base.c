@@ -14,7 +14,6 @@ int main() {
   int readIndex = 0;
 
   while(scanf("%ld", &MACHINE_MEMORY[readIndex]) != EOF) {
-    fprintf(stderr, "foo %ld \n", MACHINE_MEMORY[readIndex]);
     readIndex++;
     if (readIndex >= memory_size) {
       // Get more memoryyyy
