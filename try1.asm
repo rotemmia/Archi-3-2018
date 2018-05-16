@@ -6,6 +6,7 @@ init_a+1 init_a+1 +
 init_a+1 temp1 +
 temp2 temp2 +
 init_a: temp2 0 +
+temp2 start_of_memory +
 A temp2 +
 index one +
 B_pointer index +
@@ -15,6 +16,7 @@ init_b+1 init_b+1 +
 init_b+1 temp1 +
 temp2 temp2 +
 init_b: temp2 0 +
+temp2 start_of_memory +
 B temp2 +
 index one +
 C_pointer index +
@@ -24,6 +26,7 @@ init_c+1 init_c+1 +
 init_c+1 temp1 +
 temp2 temp2 +
 init_c: temp2 0 +
+temp2 start_of_memory +
 C temp2 +
 ; Check A == 0 && B == 0 && C == 0
 ; if so exit program.
@@ -58,16 +61,41 @@ check_zero_6:  C neg_one continue_loop
 continue_loop:  A B loop_result_neg
   index one re_loop
   ; jmp to new index.
-loop_result_neg:  index index +
+loop_result_neg: index index +
   index C +
-re_loop: A A +
-  A index +
+re_loop: A_pointer A_pointer +
+  A_pointer index +
+  temp1 temp1 +
+  temp1 A_pointer +
+  assign_a+1 assign_a+1 +
+  assign_a+1 temp1 +
+  temp2 temp2 +
+  assign_a: temp2 0 +
+  temp2 start_of_memory +
+  A temp2 +
   index one +
-  B B +
-  B index +
+  B_pointer B_pointer +
+  B_pointer index +
+  temp1 temp1 +
+  temp1 B_pointer +
+  assign_b+1 assign_b+1 +
+  assign_b+1 temp1 +
+  temp2 temp2 +
+  assign_b: temp2 0 +
+  temp2 start_of_memory +
+  B temp2 +
   index one +
-  C C +
-  C index +
+  C_pointer C_pointer +
+  C_pointer index +
+  temp1 temp1 +
+  temp1 C_pointer +
+  assign_c+1 assign_c+1 +
+  assign_c+1 temp1 +
+  temp2 temp2 +
+  assign_c: temp2 0 +
+  temp2 start_of_memory +
+  C temp2 +
+
   ; jump to start of loop (check ABC != 0)
   neg_one zero check_zero
 exit: 0 0 0
