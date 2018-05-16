@@ -48,6 +48,5 @@ Breturn: neg_one zero return_address
 Cval: 0
 C: 0
 Creturn: neg_one zero return_address
-start_of_memory: 423432
-neg_start_of_memory: -423432
 return_address: 0
+start_of_memory: 423432
