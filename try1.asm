@@ -23,44 +23,33 @@ init_c+1 temp1 +
 temp2 temp2 +
 init_c: temp2 0 +
 C temp2 +
-; Check A == 0 && B == 0 && C == 0
-; if so exit program.
-  ; if A -1 < 0
 check_zero: A one check_zero_2
-  ; A-1 > 0 continue loop.
   A neg_one +
-  ; jmp continue_loop
   neg_one zero continue_loop
-  ; Add 1 back if still negative then we keep going
 check_zero_2:  A neg_one continue_loop
-  ; A == 0. Check B
-  ; if b -1 < 0
 check_zero_3:  B one check_zero_4
-  ; B-1 > 0 continue loop.
   B neg_one +
-  ; jmp continue_loop
   neg_one zero continue_loop
-  ; Add 1 back if still negative then we keep going
 check_zero_4: B neg_one continue_loop
-  ; B == 0 check C.
-  ; if C -1 < 0
 check_zero_5:  C one check_zero_6
-  ; C-1 > 0 continue loop.
   C neg_one +
-  ; jmp continue_loop
   neg_one zero continue_loop
-  ; Add 1 back if still negative then we keep going
 check_zero_6:  C neg_one continue_loop
-  ; A B C all equal 0. Exit.
   neg_one zero exit
-continue_loop:
-  A neg_start_of_memory +
-  B neg_start_of_memory +
-  C neg_start_of_memory +
-  A B loop_result_neg
+  continue_loop: run_command run_command +
+  temp1 temp1 +
+  temp1 A +
+  temp1 start_of_memory +
+  run_command temp1 +
+  run_command+1 run_command+1 +
+  temp2 temp2 +
+  temp2 B +
+  temp2 start_of_memory +
+  run_command+1 temp2 +
+  run_command: A B loop_result_neg
   index one re_loop
-  ; jmp to new index.
 loop_result_neg: index index +
+  C neg_start_of_memory +
   index C +
 re_loop: A_pointer A_pointer +
   A_pointer index +
@@ -82,9 +71,7 @@ re_loop: A_pointer A_pointer +
   temp1 temp1 +
   assign_b: temp1 0 +
   B B +
-  temp2 temp2 +
-  temp2 temp1 +
-  B temp2 +
+  B temp1 +
   index one +
   C_pointer C_pointer +
   C_pointer index +
@@ -95,9 +82,7 @@ re_loop: A_pointer A_pointer +
   temp1 temp1 +
   assign_c: temp1 0 +
   C C +
-  temp2 temp2 +
-  temp2 temp1 +
-  C temp2 +  ; jump to start of loop (check ABC != 0)
+  C temp1 +  ; jump to start of loop (check ABC != 0)
   neg_one zero check_zero
 exit: 0 0 0
 neg_one: -1
@@ -112,6 +97,5 @@ C_pointer: 0
 index: 0
 temp1: 0
 temp2: 0
-return_address: 0
 neg_start_of_memory: 0
 start_of_memory: +
