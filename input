@@ -1,0 +1,53 @@
+index start_of_memory +
+A index +
+index one +
+B index +
+index one +
+C index +
+A neg_start_of_memory +
+B neg_start_of_memory +
+C neg_start_of_memory +
+check_zero: A one check_zero_2
+  A neg_one continue_loop
+  neg_one zero continue_loop
+  check_zero_2:  A neg_one continue_loop
+check_zero_3:  B one check_zero_4
+  B neg_one continue_loop
+  neg_one zero continue_loop
+check_zero_4: B neg_one continue_loop
+check_zero_5:  C one check_zero_6
+  C neg_one continue_loop
+  neg_one zero continue_loop
+check_zero_6:  C neg_one continue_loop
+  neg_one zero exit
+continue_loop:  A B loop_result_neg
+  index one re_loop
+loop_result_neg:  index index +
+  index C +
+re_loop: A A +
+  A index +
+  index one +
+  B B +
+  B index +
+  index one +
+  C C +
+  C index +
+  neg_one zero check_zero
+exit: 0 0 0
+three: 3
+zero: 0
+neg_one: -1
+one: 1
+index: 0
+Aval: 0
+A: 0
+Areturn: neg_one zero return_address
+Bval: 0
+B: 0
+Breturn: neg_one zero return_address
+Cval: 0
+C: 0
+Creturn: neg_one zero return_address
+start_of_memory: 423432
+neg_start_of_memory: -423432
+return_address: 0
