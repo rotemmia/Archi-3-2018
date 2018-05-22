@@ -6,7 +6,7 @@ bin/base.o:
 		nasm -f elf64 sic.s -o bin/base.o -l bin/base.lst
 
 test: clean all
-	./base
+	cat fibb.sic sic.sic | ./base
 
 .PHONY: clean
 clean:
