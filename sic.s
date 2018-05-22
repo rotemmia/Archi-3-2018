@@ -55,9 +55,10 @@ read_while_body:
 	mov	eax, dword [rbp - 8]
 	imul rsi, rax, 4000
 	mov	rdi, qword [rbp - 16]
-	call	realloc
+	call realloc
 	; Re-point the MEMORY pointer.
-	mov	qword[rbp - 16], rax
+	mov	qword [rbp - 16], rax
+
 read_while_condition:
 	; Read another number.
 	; Find the correct address:
@@ -69,7 +70,7 @@ read_while_condition:
 	add	rsi, rdx
 	mov	edi, input_string
 	mov	eax, 0
-	call	scanf
+	call scanf
 	; if scanf(...) != EOF
 	cmp	eax, -1
 	jne	read_while_body
@@ -78,11 +79,13 @@ read_while_condition:
 	mov	eax, dword [rbp - 24]
 	lea	rsi, [rax * 8]
 	mov	rdi, qword [rbp - 16]
-	call	realloc
+	call realloc
 	mov	qword [rbp - 16], rax
 	; memory_size = read_index.
 	mov	eax, dword [rbp - 24]
 	mov	dword [rbp - 20], eax
+
+	; === Prepare to start the SIC VM.
 	; Assign A, B, C.
 	; Address of MEMORY => rcx.
 	mov	rcx, qword[rbp - 16]
@@ -92,7 +95,7 @@ read_while_condition:
 	; rcx now the location of MEMORY[index].
 	add	rcx, rdx
 
-  ; A = MEMORY[index].
+  ; rbp - 32: A = MEMORY[index].
 	mov	rax, qword [rcx]
 	mov	qword [rbp - 32], rax
 
@@ -101,10 +104,12 @@ read_while_condition:
 	mov	rax, qword [rcx]
 	mov	qword [rbp - 40], rax
 
+	; rbp - 48: C = MEMORY[index + 2].
 	add	rcx, 8
 	mov	rax, qword [rcx]
-	mov	qword[rbp - 48], rax
+	mov	qword [rbp - 48], rax
 	jmp	compare_values_to_zero
+
 run_vm_while_loop:
 	mov	rax, qword[rbp - 32]
 	lea	rdx, [rax * 8]
