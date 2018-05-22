@@ -1,56 +1,82 @@
+; Start of SIC Assembly VM.
+; Made by Rotem Mia & Amir Arbel
 section .text
 	extern calloc, realloc, free, scanf, printf
 	global main
-LC0:
+
+; Input string for scanf.
+input_string:
 	dq "%ld", 0
 LC1:
 	dq "%ld ", 0
-newlinestring:
+new_line_string:
 	dq "", 10, 0
 
 main:
 	push rbp
 	mov	rbp, rsp
+	; Save some room on the broom.
 	sub	rsp, 64
-	mov	dword[rbp - 4], 0
-	mov	qword[rbp - 56], 0
-	mov	dword[rbp - 8], 1
+	; rbp - 4: "index" - general use index.
+	mov	dword [rbp - 4], 0
+	; rbp - 56: "sbn_result" - result of  the actual command.
+	mov	qword [rbp - 56], 0
+	; rbp - 8: Number of blocks dynamically allocated.
+	mov	dword [rbp - 8], 1
+	; Allocate sizeof(long) * (default_block_size = 500) with calloc.
 	mov	esi, 8
 	mov	edi, 500
 	call	calloc
-	mov	qword[rbp - 16], rax
-	mov	dword[rbp - 20], 500
-	mov	dword[rbp - 24], 0
-	jmp	.L2
-.L3:
-	add	dword[rbp - 24], 1
-	mov	eax, dword[rbp - 24]
-	cmp	eax, dword[rbp - 20]
-	jl	.L2
-	add	dword[rbp - 8], 1
-	mov	eax, dword[rbp - 8]
-	cdqe
+
+	; rbp - 16: MEMORY
+	mov	qword [rbp - 16], rax
+	; rbp - 20: How much we've allocated.
+	mov	dword [rbp - 20], 500
+	; rbp - 24: number of numbers read. "read_index".
+	mov	dword [rbp - 24], 0
+	jmp	read_while_condition
+
+read_while_body:
+	; read index++
+	add	dword [rbp - 24], 1
+	; Are we out of memory?
+	mov	eax, dword [rbp - 24]
+	cmp	eax, dword [rbp - 20]
+	; if we still have memory.
+	jl read_while_condition
+
+	; Allocate more memory.
+	; Number of blocks++
+	add	dword [rbp - 8], 1
+	; Keep track of memory size.
+	add	dword[rbp - 20], 500
+	; realloc MEMORY to
+	; number_of_blocks * sizeof(long) * default_block_size.
+	mov	eax, dword [rbp - 8]
 	imul	rdx, rax, 4000
-	mov	rax, qword[rbp - 16]
+	mov	rax, qword [rbp - 16]
 	mov	rsi, rdx
 	mov	rdi, rax
 	call	realloc
+	; Re-point the MEMORY pointer.
 	mov	qword[rbp - 16], rax
-	add	dword[rbp - 20], 500
-.L2:
-	mov	eax, dword[rbp - 24]
-	cdqe
+read_while_condition:
+	; Read another number.
+	; Find the correct address:
+	; read_index * sizeof(long).
+	mov	eax, dword [rbp - 24]
 	lea	rdx, [rax * 8]
-	mov	rax, qword[rbp - 16]
-	add	rax, rdx
-	mov	rsi, rax
-	mov	edi, LC0
+	mov	rsi, qword [rbp - 16]
+	; New location index + MEMORY address.
+	add	rsi, rdx
+	mov	edi, input_string
 	mov	eax, 0
 	call	scanf
+	; if scanf(...) != EOF
 	cmp	eax, -1
-	jne	.L3
+	jne	read_while_body
+
 	mov	eax, dword[rbp - 24]
-	cdqe
 	lea	rdx, [rax * 8]
 	mov	rax, qword[rbp - 16]
 	mov	rsi, rdx
@@ -162,7 +188,7 @@ main:
 	mov	rax, qword[rbp - 16]
 	mov	rdi, rax
 	call free
-	mov	edi, newlinestring
+	mov	edi, new_line_string
 	call printf
 	mov	eax, 0
 	leave
