@@ -112,6 +112,7 @@ run_vm_while_loop:
 	jmp	update_values
 
 result_is_negetive:
+	; add 3 to index
 	add	dword[rbp - 4], 3
 
 update_values:
@@ -119,6 +120,7 @@ update_values:
 	cdqe
 	lea	rdx, [rax * 8]
 	mov	rax, qword[rbp - 16]
+	; init rax to machine memory
 	add	rax, rdx
 	mov	rax, qword[rax]
 	mov	qword[rbp - 32], rax
@@ -149,7 +151,8 @@ compare_values_to_zero:
 	; init index to zero
 	mov	dword [rbp - 4], 0
 	jmp	printf_loop_condition
-.L9:
+
+print_index:
 	mov	eax, dword[rbp - 4]
 	cdqe
 	lea	rdx, [rax * 8]
@@ -160,11 +163,13 @@ compare_values_to_zero:
 	mov	edi, LC1
 	mov	eax, 0
 	call	printf
+	; index++
 	add	dword[rbp - 4], 1
+
 printf_loop_condition:
 	mov	eax, dword[rbp - 4]
 	cmp	eax, dword[rbp - 20]
-	jl	.L9
+	jl	print_index
 	mov	rax, qword[rbp - 16]
 	mov	rdi, rax
 	call free
