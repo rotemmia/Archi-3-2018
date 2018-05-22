@@ -53,10 +53,8 @@ read_while_body:
 	; realloc MEMORY to
 	; number_of_blocks * sizeof(long) * default_block_size.
 	mov	eax, dword [rbp - 8]
-	imul	rdx, rax, 4000
-	mov	rax, qword [rbp - 16]
-	mov	rsi, rdx
-	mov	rdi, rax
+	imul rsi, rax, 4000
+	mov	rdi, qword [rbp - 16]
 	call	realloc
 	; Re-point the MEMORY pointer.
 	mov	qword[rbp - 16], rax
@@ -76,37 +74,35 @@ read_while_condition:
 	cmp	eax, -1
 	jne	read_while_body
 
-	mov	eax, dword[rbp - 24]
-	lea	rdx, [rax * 8]
-	mov	rax, qword[rbp - 16]
-	mov	rsi, rdx
-	mov	rdi, rax
+	; Realloc MEMORY to needed size.
+	mov	eax, dword [rbp - 24]
+	lea	rsi, [rax * 8]
+	mov	rdi, qword [rbp - 16]
 	call	realloc
-	mov	qword[rbp - 16], rax
-	mov	eax, dword[rbp - 24]
-	mov	dword[rbp - 20], eax
-	mov	eax, dword[rbp - 4]
-	cdqe
+	mov	qword [rbp - 16], rax
+	; memory_size = read_index.
+	mov	eax, dword [rbp - 24]
+	mov	dword [rbp - 20], eax
+	; Assign A, B, C.
+	; Address of MEMORY => rcx.
+	mov	rcx, qword[rbp - 16]
+	; rbp - 4: index.
+	mov	eax, dword [rbp - 4]
 	lea	rdx, [rax * 8]
-	mov	rax, qword[rbp - 16]
-	add	rax, rdx
-	mov	rax, qword[rax]
-	mov	qword[rbp - 32], rax
-	mov	eax, dword[rbp - 4]
-	cdqe
-	add	rax, 1
-	lea	rdx, [rax * 8]
-	mov	rax, qword[rbp - 16]
-	add	rax, rdx
-	mov	rax, qword[rax]
-	mov	qword[rbp - 40], rax
-	mov	eax, dword[rbp - 4]
-	cdqe
-	add	rax, 2
-	lea	rdx, [rax * 8]
-	mov	rax, qword[rbp - 16]
-	add	rax, rdx
-	mov	rax, qword[rax]
+	; rcx now the location of MEMORY[index].
+	add	rcx, rdx
+
+  ; A = MEMORY[index].
+	mov	rax, qword [rcx]
+	mov	qword [rbp - 32], rax
+
+	; rbp - 40: B = MEMORY[index + 1].
+	add	rcx, 8
+	mov	rax, qword [rcx]
+	mov	qword [rbp - 40], rax
+
+	add	rcx, 8
+	mov	rax, qword [rcx]
 	mov	qword[rbp - 48], rax
 	jmp	.L4
 .L7:
