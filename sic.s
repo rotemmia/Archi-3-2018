@@ -104,8 +104,8 @@ read_while_condition:
 	add	rcx, 8
 	mov	rax, qword [rcx]
 	mov	qword[rbp - 48], rax
-	jmp	.L4
-.L7:
+	jmp	compare_values_to_zero
+run_vm_while_loop:
 	mov	rax, qword[rbp - 32]
 	lea	rdx, [rax * 8]
 	mov	rax, qword[rbp - 16]
@@ -125,18 +125,24 @@ read_while_condition:
 	mov	qword[rax], rdx
 	mov	rax, qword[rax]
 	mov	qword[rbp - 56], rax
+	; check if result is negetive
 	cmp	qword[rbp - 56], 0
-	jns	.L5
+	jns	result_is_negetive
+	; update index to C
 	mov	rax, qword[rbp - 48]
 	mov	dword[rbp - 4], eax
-	jmp	.L6
-.L5:
+	jmp	update_values
+
+result_is_negetive:
+	; add 3 to index
 	add	dword[rbp - 4], 3
-.L6:
+
+update_values:
 	mov	eax, dword[rbp - 4]
 	cdqe
 	lea	rdx, [rax * 8]
 	mov	rax, qword[rbp - 16]
+	; init rax to machine memory
 	add	rax, rdx
 	mov	rax, qword[rax]
 	mov	qword[rbp - 32], rax
@@ -156,16 +162,19 @@ read_while_condition:
 	add	rax, rdx
 	mov	rax, qword[rax]
 	mov	qword[rbp - 48], rax
-.L4:
-	cmp	qword[rbp - 32], 0
-	jne	.L7
-	cmp	qword[rbp - 40], 0
-	jne	.L7
-	cmp	qword[rbp - 48], 0
-	jne	.L7
-	mov	dword[rbp - 4], 0
-	jmp	.L8
-.L9:
+compare_values_to_zero:
+	;if A or B or C is zero
+	cmp	qword [rbp - 32], 0
+	jne	run_vm_while_loop
+	cmp	qword [rbp - 40], 0
+	jne	run_vm_while_loop
+	cmp	qword [rbp - 48], 0
+	jne	run_vm_while_loop
+	; init index to zero
+	mov	dword [rbp - 4], 0
+	jmp	printf_loop_condition
+
+print_index:
 	mov	eax, dword[rbp - 4]
 	cdqe
 	lea	rdx, [rax * 8]
@@ -176,11 +185,13 @@ read_while_condition:
 	mov	edi, LC1
 	mov	eax, 0
 	call	printf
+	; index++
 	add	dword[rbp - 4], 1
-.L8:
+
+printf_loop_condition:
 	mov	eax, dword[rbp - 4]
 	cmp	eax, dword[rbp - 20]
-	jl	.L9
+	jl	print_index
 	mov	rax, qword[rbp - 16]
 	mov	rdi, rax
 	call free
