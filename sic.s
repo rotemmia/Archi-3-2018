@@ -24,9 +24,9 @@ main:
 	.loc 1 8 0
 	mov	DWORD PTR [rbp-4], 0
 	.loc 1 9 0
-	mov	DWORD PTR [rbp-8], 0
-	.loc 1 10 0
 	mov	QWORD PTR [rbp-56], 0
+	.loc 1 10 0
+	mov	DWORD PTR [rbp-8], 1
 	.loc 1 12 0
 	mov	esi, 8
 	mov	edi, 500
@@ -46,16 +46,9 @@ main:
 	cmp	eax, DWORD PTR [rbp-20]
 	jl	.L2
 	.loc 1 20 0
-	mov	ecx, DWORD PTR [rbp-24]
-	mov	edx, 274877907
-	mov	eax, ecx
-	imul	edx
-	sar	edx, 5
-	mov	eax, ecx
-	sar	eax, 31
-	sub	edx, eax
-	mov	eax, edx
-	add	eax, 1
+	add	DWORD PTR [rbp-8], 1
+	.loc 1 21 0
+	mov	eax, DWORD PTR [rbp-8]
 	cdqe
 	imul	rdx, rax, 4000
 	mov	rax, QWORD PTR [rbp-16]
@@ -63,7 +56,7 @@ main:
 	mov	rdi, rax
 	call	realloc
 	mov	QWORD PTR [rbp-16], rax
-	.loc 1 21 0
+	.loc 1 22 0
 	add	DWORD PTR [rbp-20], 500
 .L2:
 	.loc 1 16 0
@@ -78,7 +71,7 @@ main:
 	call	__isoc99_scanf
 	cmp	eax, -1
 	jne	.L3
-	.loc 1 26 0
+	.loc 1 27 0
 	mov	eax, DWORD PTR [rbp-24]
 	cdqe
 	lea	rdx, [0+rax*8]
@@ -87,10 +80,10 @@ main:
 	mov	rdi, rax
 	call	realloc
 	mov	QWORD PTR [rbp-16], rax
-	.loc 1 27 0
+	.loc 1 28 0
 	mov	eax, DWORD PTR [rbp-24]
 	mov	DWORD PTR [rbp-20], eax
-	.loc 1 29 0
+	.loc 1 30 0
 	mov	eax, DWORD PTR [rbp-4]
 	cdqe
 	lea	rdx, [0+rax*8]
@@ -98,7 +91,7 @@ main:
 	add	rax, rdx
 	mov	rax, QWORD PTR [rax]
 	mov	QWORD PTR [rbp-32], rax
-	.loc 1 30 0
+	.loc 1 31 0
 	mov	eax, DWORD PTR [rbp-4]
 	cdqe
 	add	rax, 1
@@ -107,7 +100,7 @@ main:
 	add	rax, rdx
 	mov	rax, QWORD PTR [rax]
 	mov	QWORD PTR [rbp-40], rax
-	.loc 1 31 0
+	.loc 1 32 0
 	mov	eax, DWORD PTR [rbp-4]
 	cdqe
 	add	rax, 2
@@ -116,10 +109,10 @@ main:
 	add	rax, rdx
 	mov	rax, QWORD PTR [rax]
 	mov	QWORD PTR [rbp-48], rax
-	.loc 1 33 0
+	.loc 1 34 0
 	jmp	.L4
 .L7:
-	.loc 1 35 0
+	.loc 1 36 0
 	mov	rax, QWORD PTR [rbp-32]
 	lea	rdx, [0+rax*8]
 	mov	rax, QWORD PTR [rbp-16]
@@ -139,18 +132,18 @@ main:
 	mov	QWORD PTR [rax], rdx
 	mov	rax, QWORD PTR [rax]
 	mov	QWORD PTR [rbp-56], rax
-	.loc 1 36 0
+	.loc 1 37 0
 	cmp	QWORD PTR [rbp-56], 0
 	jns	.L5
-	.loc 1 38 0
+	.loc 1 39 0
 	mov	rax, QWORD PTR [rbp-48]
 	mov	DWORD PTR [rbp-4], eax
 	jmp	.L6
 .L5:
-	.loc 1 41 0
+	.loc 1 42 0
 	add	DWORD PTR [rbp-4], 3
 .L6:
-	.loc 1 44 0
+	.loc 1 45 0
 	mov	eax, DWORD PTR [rbp-4]
 	cdqe
 	lea	rdx, [0+rax*8]
@@ -158,7 +151,7 @@ main:
 	add	rax, rdx
 	mov	rax, QWORD PTR [rax]
 	mov	QWORD PTR [rbp-32], rax
-	.loc 1 45 0
+	.loc 1 46 0
 	mov	eax, DWORD PTR [rbp-4]
 	cdqe
 	add	rax, 1
@@ -167,7 +160,7 @@ main:
 	add	rax, rdx
 	mov	rax, QWORD PTR [rax]
 	mov	QWORD PTR [rbp-40], rax
-	.loc 1 46 0
+	.loc 1 47 0
 	mov	eax, DWORD PTR [rbp-4]
 	cdqe
 	add	rax, 2
@@ -177,21 +170,21 @@ main:
 	mov	rax, QWORD PTR [rax]
 	mov	QWORD PTR [rbp-48], rax
 .L4:
-	.loc 1 33 0
+	.loc 1 34 0
 	cmp	QWORD PTR [rbp-32], 0
 	jne	.L7
-	.loc 1 33 0 is_stmt 0 discriminator 1
+	.loc 1 34 0 is_stmt 0 discriminator 1
 	cmp	QWORD PTR [rbp-40], 0
 	jne	.L7
-	.loc 1 33 0 discriminator 2
+	.loc 1 34 0 discriminator 2
 	cmp	QWORD PTR [rbp-48], 0
 	jne	.L7
-	.loc 1 50 0 is_stmt 1
-	mov	DWORD PTR [rbp-8], 0
+	.loc 1 51 0 is_stmt 1
+	mov	DWORD PTR [rbp-4], 0
 	jmp	.L8
 .L9:
-	.loc 1 51 0 discriminator 3
-	mov	eax, DWORD PTR [rbp-8]
+	.loc 1 52 0 discriminator 3
+	mov	eax, DWORD PTR [rbp-4]
 	cdqe
 	lea	rdx, [0+rax*8]
 	mov	rax, QWORD PTR [rbp-16]
@@ -201,19 +194,19 @@ main:
 	mov	edi, OFFSET FLAT:.LC1
 	mov	eax, 0
 	call	printf
-	.loc 1 50 0 discriminator 3
-	add	DWORD PTR [rbp-8], 1
+	.loc 1 51 0 discriminator 3
+	add	DWORD PTR [rbp-4], 1
 .L8:
-	.loc 1 50 0 is_stmt 0 discriminator 1
-	mov	eax, DWORD PTR [rbp-8]
+	.loc 1 51 0 is_stmt 0 discriminator 1
+	mov	eax, DWORD PTR [rbp-4]
 	cmp	eax, DWORD PTR [rbp-20]
 	jl	.L9
-	.loc 1 54 0 is_stmt 1
+	.loc 1 55 0 is_stmt 1
 	mov	edi, 10
 	call	putchar
-	.loc 1 55 0
-	mov	eax, 0
 	.loc 1 56 0
+	mov	eax, 0
+	.loc 1 57 0
 	leave
 	.cfi_def_cfa 7, 8
 	ret
@@ -305,18 +298,18 @@ main:
 	.long	.LASF12
 	.byte	0x1
 	.byte	0x9
-	.long	0x57
-	.uleb128 0x2
-	.byte	0x91
-	.sleb128 -24
-	.uleb128 0x5
-	.long	.LASF13
-	.byte	0x1
-	.byte	0xa
 	.long	0x5e
 	.uleb128 0x3
 	.byte	0x91
 	.sleb128 -72
+	.uleb128 0x5
+	.long	.LASF13
+	.byte	0x1
+	.byte	0xa
+	.long	0x57
+	.uleb128 0x2
+	.byte	0x91
+	.sleb128 -24
 	.uleb128 0x5
 	.long	.LASF14
 	.byte	0x1
@@ -344,7 +337,7 @@ main:
 	.uleb128 0x6
 	.string	"A"
 	.byte	0x1
-	.byte	0x1d
+	.byte	0x1e
 	.long	0x5e
 	.uleb128 0x2
 	.byte	0x91
@@ -352,7 +345,7 @@ main:
 	.uleb128 0x6
 	.string	"B"
 	.byte	0x1
-	.byte	0x1e
+	.byte	0x1f
 	.long	0x5e
 	.uleb128 0x2
 	.byte	0x91
@@ -360,7 +353,7 @@ main:
 	.uleb128 0x6
 	.string	"C"
 	.byte	0x1
-	.byte	0x1f
+	.byte	0x20
 	.long	0x5e
 	.uleb128 0x2
 	.byte	0x91
@@ -505,18 +498,18 @@ main:
 	.string	"long unsigned int"
 .LASF10:
 	.string	"long long unsigned int"
-.LASF19:
-	.string	"/users/studs/bsc/2016/rotemmia/Archi/Assignment 3"
 .LASF13:
+	.string	"number_of_blocks"
+.LASF12:
 	.string	"sbn_result"
 .LASF1:
 	.string	"unsigned char"
+.LASF19:
+	.string	"/media/sf_Studies/Archi-3-2018"
 .LASF8:
 	.string	"char"
 .LASF6:
 	.string	"long int"
-.LASF12:
-	.string	"printIndex"
 .LASF11:
 	.string	"index"
 .LASF2:
@@ -535,5 +528,5 @@ main:
 	.string	"MACHINE_MEMORY"
 .LASF7:
 	.string	"sizetype"
-	.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.4) 5.4.0 20160609"
+	.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.9) 5.4.0 20160609"
 	.section	.note.GNU-stack,"",@progbits

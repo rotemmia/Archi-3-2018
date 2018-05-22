@@ -6,18 +6,19 @@
 int main() {
 
   int index = 0;
-  int printIndex = 0;
   long sbn_result = 0;
+  int number_of_blocks = 1;
 
   long* MACHINE_MEMORY = (long *) calloc(vm_block, sizeof(long));
   int memory_size = vm_block;
   int readIndex = 0;
 
-  while(scanf("%ld", &MACHINE_MEMORY[readIndex]) != EOF) {
+  while (scanf("%ld", &MACHINE_MEMORY[readIndex]) != EOF) {
     readIndex++;
     if (readIndex >= memory_size) {
       // Get more memoryyyy
-      MACHINE_MEMORY = realloc(MACHINE_MEMORY, (sizeof(long) * (vm_block * (((readIndex) / vm_block) + 1))));
+      number_of_blocks++;
+      MACHINE_MEMORY = realloc(MACHINE_MEMORY, (sizeof(long) * vm_block * (number_of_blocks)));
       memory_size += vm_block;
     }
   }
@@ -47,8 +48,8 @@ int main() {
 
   }
 
-  for (printIndex = 0; printIndex < memory_size; ++printIndex) {
-    printf("%ld ", MACHINE_MEMORY[printIndex]);
+  for (index = 0; index < memory_size; index++) {
+    printf("%ld ", MACHINE_MEMORY[index]);
   }
 
   printf("\n");
