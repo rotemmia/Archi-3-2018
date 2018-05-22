@@ -52,6 +52,9 @@ int main() {
     printf("%ld ", MACHINE_MEMORY[index]);
   }
 
+  // Clean memory.
+  free(MACHINE_MEMORY);
+
   printf("\n");
   return 0;
 }
